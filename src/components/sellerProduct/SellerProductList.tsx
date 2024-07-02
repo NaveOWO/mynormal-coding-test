@@ -1,16 +1,13 @@
-import QueryString from 'qs';
 import styled, { keyframes } from 'styled-components';
 import { useGetSellerProductsData } from '../../hooks/quries/seller';
 import { useRouter } from '../../hooks/common/useRouter';
 import ProductItem from './ProductItem';
 import Button from '../common/Button';
+import { getStringQS } from '../../utils/querystring';
+import { SIZE } from '../../constants/product';
 
 export default function SellerProductList() {
-  const start =
-    QueryString.parse(location.search, {
-      ignoreQueryPrefix: true,
-    }).start ?? '0';
-
+  const start = getStringQS('start');
   const { allData, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetSellerProductsData();
   const router = useRouter();
@@ -21,7 +18,7 @@ export default function SellerProductList() {
         {allData.map((item) => {
           return <ProductItem key={item.name} name={item.name} price={item.price} />;
         })}
-        {isFetchingNextPage && new Array(4).fill('_').map(() => <SkeletonItem />)}
+        {isFetchingNextPage && new Array(SIZE).fill('_').map(() => <SkeletonItem />)}
       </ListContainer>
       {hasNextPage && (
         <ButtonWrapper>
@@ -31,7 +28,7 @@ export default function SellerProductList() {
             border={true}
             text='더보기'
             onClick={() => {
-              router.push('', { start: Number(start) + 4 });
+              router.push('', { start: Number(start) + SIZE });
               fetchNextPage();
             }}
           />
@@ -116,15 +113,6 @@ const InfoContainer = styled.div`
 
   margin-top: 0.5rem;
   padding: 0 1rem;
-`;
-
-const FavoriteSkeleton = styled(SkeletonBox)`
-  position: absolute;
-  top: 14.5rem;
-  right: 1.8rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
 `;
 
 const NameSkeleton = styled(SkeletonBox)`

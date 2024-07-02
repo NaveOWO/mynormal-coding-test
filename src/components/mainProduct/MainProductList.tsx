@@ -3,21 +3,18 @@ import { useGetProductsData } from '../../hooks/quries/products';
 import ProductItem from './ProductItem';
 import styled, { keyframes } from 'styled-components';
 import { useRouter } from '../../hooks/common/useRouter';
-import QueryString from 'qs';
 import Button from '../common/Button';
+import { getStringQS } from '../../utils/querystring';
+import { SIZE } from '../../constants/product';
 
 export default function MainProductList() {
-  const start =
-    QueryString.parse(location.search, {
-      ignoreQueryPrefix: true,
-    }).start ?? '0';
-
+  const start = getStringQS('start');
   const { allData, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetProductsData();
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/', { start: (allData.length / 4 - 1) * 4 });
+    router.push('', { start: (allData.length / SIZE - 1) * SIZE });
   }, []);
 
   return (
@@ -33,7 +30,7 @@ export default function MainProductList() {
             />
           );
         })}
-        {isFetchingNextPage && new Array(4).fill('_').map(() => <SkeletonItem />)}
+        {isFetchingNextPage && new Array(SIZE).fill('_').map(() => <SkeletonItem />)}
       </ListContainer>
       {hasNextPage && (
         <ButtonWrapper>
@@ -43,7 +40,7 @@ export default function MainProductList() {
             border={true}
             text='더보기'
             onClick={() => {
-              router.push('/', { start: Number(start) + 4 });
+              router.push('/', { start: Number(start) + SIZE });
               fetchNextPage();
             }}
           />

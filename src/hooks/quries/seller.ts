@@ -4,9 +4,11 @@ import {
   getSellerProductsData,
   postFavoriteSeller,
 } from '../../api/seller';
-import QueryString from 'qs';
 import { useParams } from 'react-router-dom';
 import { useToast } from '../common/useToast';
+import { useEffect } from 'react';
+import { getStringQS } from '../../utils/querystring';
+import { SIZE } from '../../constants/product';
 
 const QUERY_KEY = {
   all: () => ['sellerProducts'],
@@ -14,9 +16,7 @@ const QUERY_KEY = {
 };
 
 export const useGetSellerProductsData = () => {
-  const { start } = QueryString.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
+  const start = getStringQS('start');
   const { seller } = useParams();
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery({
@@ -24,7 +24,9 @@ export const useGetSellerProductsData = () => {
       queryFn: ({ pageParam = start }) =>
         getSellerProductsData({ start: pageParam as string, sellerName: seller }),
       getNextPageParam: (lastPage) => {
-        return lastPage.data.data.length < 4 ? undefined : (Number(start) + 4).toString();
+        return lastPage.data.data.length < SIZE
+          ? undefined
+          : (Number(start) + SIZE).toString();
       },
       initialPageParam: '0',
     });
@@ -44,13 +46,15 @@ export const usePostFavoriteSeller = () => {
   });
   const { setMessage } = useToast();
 
-  if (isSuccess) {
-    setMessage('관심셀러에 등록했어요!');
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      setMessage('관심셀러에 등록했어요!');
+    }
 
-  if (isError) {
-    setMessage('다시 시도해주세요!');
-  }
+    if (isError) {
+      setMessage('다시 시도해주세요!');
+    }
+  }, [isSuccess, isError]);
 
   return { mutate, isPending };
 };
@@ -62,13 +66,15 @@ export const useDeleteFavoriteSeller = () => {
 
   const { setMessage } = useToast();
 
-  if (isSuccess) {
-    setMessage('관심셀러를 해제했어요!');
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      setMessage('관심셀러에 등록했어요!');
+    }
 
-  if (isError) {
-    setMessage('다시 시도해주세요!');
-  }
+    if (isError) {
+      setMessage('다시 시도해주세요!');
+    }
+  }, [isSuccess, isError]);
 
   return { mutate, isPending };
 };

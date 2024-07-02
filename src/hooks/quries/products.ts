@@ -1,6 +1,7 @@
 import { useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { getProductDetailData, getProductsData } from '../../api/product';
-import QueryString from 'qs';
+import { getStringQS } from '../../utils/querystring';
+import { SIZE } from '../../constants/product';
 
 const QUERY_KEY = {
   all: () => ['products'],
@@ -9,16 +10,15 @@ const QUERY_KEY = {
 };
 
 export const useGetProductsData = () => {
-  const { start } = QueryString.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
-
+  const start = getStringQS('start');
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery({
       queryKey: QUERY_KEY.products(),
       queryFn: ({ pageParam = start }) => getProductsData({ start: pageParam as string }),
       getNextPageParam: (lastPage) => {
-        return lastPage.data.data.length < 4 ? undefined : (Number(start) + 4).toString();
+        return lastPage.data.data.length < SIZE
+          ? undefined
+          : (Number(start) + SIZE).toString();
       },
       initialPageParam: '0',
     });
