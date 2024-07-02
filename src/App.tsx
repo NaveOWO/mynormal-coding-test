@@ -4,6 +4,10 @@ import { router } from './Router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useToast } from './hooks/common/useToast';
 import { ToastMessage } from './components/common/Toast';
+import GlobalStyle from './styles/globalStyles';
+import { ThemeProvider } from 'styled-components';
+import theme from './styles/theme';
+import { Suspense } from 'react';
 
 export default function App() {
   const { showToast } = useToast();
@@ -12,9 +16,9 @@ export default function App() {
       queries: {
         retry: false,
         refetchOnWindowFocus: false,
-        staleTime: 1000 * 60 * 5,
       },
       mutations: {
+        retry: false,
         onSuccess() {
           showToast();
         },
@@ -26,10 +30,15 @@ export default function App() {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <RouterProvider router={router} />
-        <ToastMessage />
-      </Layout>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <Suspense>
+          <Layout>
+            <RouterProvider router={router} />
+            <ToastMessage />
+          </Layout>
+        </Suspense>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
