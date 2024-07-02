@@ -4,6 +4,7 @@ import { useGetProductDetail } from '../../hooks/quries/products';
 import { useParams } from 'react-router-dom';
 import Favorite from '../common/Favorite';
 import { useHandleFavorite } from '../../hooks/common/useHandleFavorite';
+import { numberToKRW } from '../../utils/numberToKRW';
 
 export default function ProductInfo() {
   const { product } = useParams();
@@ -20,7 +21,7 @@ export default function ProductInfo() {
       <InfoContainer>
         <Seller>{productInfo.seller}</Seller>
         <Name>{productInfo.name}</Name>
-        <Price>{productInfo.price}</Price>
+        <Price>{numberToKRW(productInfo.price)}</Price>
       </InfoContainer>
       <Favorite
         state={favorites.has(productInfo.seller) ? 'fill' : 'empty'}

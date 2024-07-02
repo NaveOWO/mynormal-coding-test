@@ -3,6 +3,7 @@ import shoes1 from '../../assets/images/shoes1.jpeg';
 import Favorite from '../common/Favorite';
 import { useRouter } from '../../hooks/common/useRouter';
 import { useHandleFavorite } from '../../hooks/common/useHandleFavorite';
+import { numberToKRW } from '../../utils/numberToKRW';
 
 interface Props {
   seller: string;
@@ -39,7 +40,7 @@ export default function ProductItem(props: Props) {
         />
         <Seller onClick={moveToSellerProductListPage}>{seller}</Seller>
         <Name onClick={moveToProductDetailPage}>{name}</Name>
-        <Price>{price}</Price>
+        <Price>{numberToKRW(price)}</Price>
       </InfoContainer>
     </ItemSection>
   );

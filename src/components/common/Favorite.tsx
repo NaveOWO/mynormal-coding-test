@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import filledFavorite from '../../assets/icons/favorite_fill.svg';
 import emptyFavorite from '../../assets/icons/favorite_empty.svg';
 import styled, { CSSProperties } from 'styled-components';

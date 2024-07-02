@@ -18,7 +18,8 @@ export default function SellerProductList() {
         {allData.map((item) => {
           return <ProductItem key={item.name} name={item.name} price={item.price} />;
         })}
-        {isFetchingNextPage && new Array(SIZE).fill('_').map(() => <SkeletonItem />)}
+        {isFetchingNextPage &&
+          new Array(SIZE).fill('_').map((_, index) => <SkeletonItem key={index} />)}
       </ListContainer>
       {hasNextPage && (
         <ButtonWrapper>

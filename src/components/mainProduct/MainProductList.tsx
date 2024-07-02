@@ -30,7 +30,8 @@ export default function MainProductList() {
             />
           );
         })}
-        {isFetchingNextPage && new Array(SIZE).fill('_').map(() => <SkeletonItem />)}
+        {isFetchingNextPage &&
+          new Array(SIZE).fill('_').map((_, index) => <SkeletonItem key={index} />)}
       </ListContainer>
       {hasNextPage && (
         <ButtonWrapper>

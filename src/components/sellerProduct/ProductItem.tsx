@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import shoes2 from '../../assets/images/shoes2.jpeg';
 import { useRouter } from '../../hooks/common/useRouter';
+import { numberToKRW } from '../../utils/numberToKRW';
 
 interface Props {
   name: string;
@@ -22,7 +23,7 @@ export default function ProductItem(props: Props) {
       </ImageContainer>
       <InfoContainer>
         <Name onClick={moveToProductDetailPage}>{name}</Name>
-        <Price>{price}</Price>
+        <Price>{numberToKRW(price)}</Price>
       </InfoContainer>
     </ItemSection>
   );
