@@ -15,9 +15,9 @@ export default function SellerProductListPage() {
     <>
       <PageTitle title={`${seller}의\n상품리스트`} />
       <Favorite
-        initState={favorites.has(seller) ? 'fill' : 'empty'}
+        state={favorites.has(seller) ? 'fill' : 'empty'}
         onChangeState={(state) => {
-          state === 'fill' ? registerFavorite() : unRegisterFavorite();
+          state === 'fill' ? unRegisterFavorite() : registerFavorite();
         }}
         style={{ justifyContent: 'flex-start', marginBottom: '1rem' }}
       />

@@ -7,7 +7,7 @@ import { useHandleFavorite } from '../../hooks/common/useHandleFavorite';
 
 export default function ProductInfo() {
   const { product } = useParams();
-  const { data: productInfo } = useGetProductDetail(product as string);
+  const { data: productInfo } = useGetProductDetail(product);
   const { favorites, registerFavorite, unRegisterFavorite } = useHandleFavorite(
     productInfo.seller,
   );
@@ -23,9 +23,9 @@ export default function ProductInfo() {
         <Price>{productInfo.price}</Price>
       </InfoContainer>
       <Favorite
-        initState={favorites.has(productInfo.seller) ? 'fill' : 'empty'}
+        state={favorites.has(productInfo.seller) ? 'fill' : 'empty'}
         onChangeState={(state) => {
-          state === 'fill' ? registerFavorite() : unRegisterFavorite();
+          state === 'fill' ? unRegisterFavorite() : registerFavorite();
         }}
         type='vertical'
         style={{ position: 'absolute', top: '38rem', right: '3.3rem' }}

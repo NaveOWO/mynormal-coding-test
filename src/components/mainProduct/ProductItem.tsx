@@ -13,8 +13,7 @@ interface Props {
 export default function ProductItem(props: Props) {
   const { seller, name, price } = props;
   const router = useRouter();
-  const { favorites, registerFavorite, unRegisterFavorite, postPending, deletePending } =
-    useHandleFavorite(seller);
+  const { favorites, registerFavorite, unRegisterFavorite } = useHandleFavorite(seller);
 
   const moveToSellerProductListPage = () => {
     router.push(`/sellers/${seller}`, { start: 0 });
@@ -31,12 +30,11 @@ export default function ProductItem(props: Props) {
       </ImageContainer>
       <InfoContainer>
         <Favorite
-          key={`${Array.from(favorites)}-${postPending}-${deletePending}`}
-          initState={favorites.has(seller) ? 'fill' : 'empty'}
+          state={favorites.has(seller) ? 'fill' : 'empty'}
           type='simple'
           style={{ position: 'absolute', top: '14.5rem', right: '1.8rem' }}
           onChangeState={(state) => {
-            state === 'fill' ? registerFavorite() : unRegisterFavorite();
+            state === 'fill' ? unRegisterFavorite() : registerFavorite();
           }}
         />
         <Seller onClick={moveToSellerProductListPage}>{seller}</Seller>
