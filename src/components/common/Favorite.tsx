@@ -3,27 +3,24 @@ import filledFavorite from '../../assets/icons/favorite_fill.svg';
 import emptyFavorite from '../../assets/icons/favorite_empty.svg';
 import styled, { CSSProperties } from 'styled-components';
 
+export type FavoriteType = 'simple' | 'vertical' | 'horizontal';
+type FavoriteState = 'fill' | 'empty';
+
 interface Props {
-  type?: 'simple' | 'vertical' | 'horizontal';
+  type?: FavoriteType;
   style?: CSSProperties;
-  initState?: 'fill' | 'empty';
-  onChangeState?: (state: 'fill' | 'empty') => void;
+  state?: FavoriteState;
+  onChangeState?: (state: FavoriteState) => void;
 }
 
 export default function Favorite(props: Props) {
-  const { type = 'horizontal', style, initState = 'empty', onChangeState } = props;
-  const [state, setState] = useState<'fill' | 'empty'>(initState);
-
-  const toggleFavorite = () => {
-    setState((prev) => (prev === 'empty' ? 'fill' : 'empty'));
-  };
+  const { type = 'horizontal', style, state = 'empty', onChangeState } = props;
 
   return (
     <Container style={{ ...style }} type={type}>
       <FavorateButton
         onClick={() => {
-          onChangeState?.(state === 'fill' ? 'empty' : 'fill');
-          toggleFavorite();
+          onChangeState?.(state);
         }}
       >
         {state === 'fill' ? (
@@ -37,7 +34,7 @@ export default function Favorite(props: Props) {
   );
 }
 
-const Container = styled.div<{ type?: 'simple' | 'vertical' | 'horizontal' }>`
+const Container = styled.div<{ type?: FavoriteType }>`
   display: flex;
   flex-direction: ${({ type }) => (type === 'vertical' ? 'column' : 'row')};
   justify-content: center;

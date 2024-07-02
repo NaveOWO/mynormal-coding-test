@@ -1,12 +1,16 @@
 import { ComponentPropsWithoutRef } from 'react';
 import styled, { CSSProperties, css } from 'styled-components';
 
+type SizeType = 'big' | 'small';
+type backgroundColorType = 'black' | 'transparent';
+type FontStyleType = '1' | '2';
+
 interface Props extends ComponentPropsWithoutRef<'button'> {
-  size?: 'big' | 'small';
+  size?: SizeType;
   border?: boolean;
-  backgroundColor?: 'black' | 'transparent';
+  backgroundColor?: backgroundColorType;
   style?: CSSProperties;
-  fontStyle?: '1' | '2';
+  fontStyle?: FontStyleType;
   text: string;
 }
 
@@ -36,10 +40,10 @@ export default function Button(props: Props) {
 }
 
 const StyledButton = styled.button<{
-  size?: 'big' | 'small';
+  size?: SizeType;
   border?: boolean;
-  backgroundColor?: 'black' | 'transparent';
-  fontStyle: '1' | '2';
+  backgroundColor?: backgroundColorType;
+  fontStyle: FontStyleType;
 }>`
   display: flex;
   justify-content: center;
