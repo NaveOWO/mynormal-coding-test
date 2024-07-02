@@ -1,4 +1,5 @@
 import { PATH } from '../constants/path';
+import { SellerProductsResponseType } from '../types/remote';
 import { client } from './axios';
 
 export const getSellerProductsData = async ({
@@ -8,7 +9,9 @@ export const getSellerProductsData = async ({
   start: string;
   sellerName: string;
 }) => {
-  const data = await client.get(`${PATH.seller(sellerName)}?start=${start}`);
+  const data = await client.get<SellerProductsResponseType>(
+    `${PATH.seller(sellerName)}?start=${start}`,
+  );
 
   return { data };
 };
