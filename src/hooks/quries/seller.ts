@@ -56,7 +56,7 @@ export const usePostFavoriteSeller = () => {
 };
 
 export const useDeleteFavoriteSeller = () => {
-  const { mutate, isSuccess, isError } = useMutation({
+  const { mutate, isSuccess, isError, isPending } = useMutation({
     mutationFn: (sellerName: string) => deleteFavoriteSeller({ sellerName }),
   });
 
@@ -70,5 +70,5 @@ export const useDeleteFavoriteSeller = () => {
     setMessage('다시 시도해주세요!');
   }
 
-  return { mutate };
+  return { mutate, isPending };
 };

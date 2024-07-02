@@ -5,24 +5,11 @@ import Favorite from '../components/common/Favorite';
 import { useParams } from 'react-router-dom';
 import ErrorBoundary from '../components/common/errorBoundary/ErrorBoundary';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import { useDeleteFavoriteSeller, usePostFavoriteSeller } from '../hooks/quries/seller';
-import { useFavoriteStore } from '../hooks/zuztand/store';
+import { useHandleFavorite } from '../hooks/common/useHandleFavorite';
 
 export default function SellerProductListPage() {
   const { seller } = useParams();
-  const { mutate: postFavorite } = usePostFavoriteSeller();
-  const { mutate: deleteFavoite } = useDeleteFavoriteSeller();
-  const { favorites, register, unRegister } = useFavoriteStore();
-
-  const registerFavorite = () => {
-    postFavorite(seller);
-    register(seller);
-  };
-
-  const unRegisterFavorite = () => {
-    deleteFavoite(seller);
-    unRegister(seller);
-  };
+  const { favorites, registerFavorite, unRegisterFavorite } = useHandleFavorite(seller);
 
   return (
     <>

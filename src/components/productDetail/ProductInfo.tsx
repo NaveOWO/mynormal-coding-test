@@ -3,28 +3,14 @@ import shoes3 from '../../assets/images/shoes3.jpeg';
 import { useGetProductDetail } from '../../hooks/quries/products';
 import { useParams } from 'react-router-dom';
 import Favorite from '../common/Favorite';
-import {
-  useDeleteFavoriteSeller,
-  usePostFavoriteSeller,
-} from '../../hooks/quries/seller';
-import { useFavoriteStore } from '../../hooks/zuztand/store';
+import { useHandleFavorite } from '../../hooks/common/useHandleFavorite';
 
 export default function ProductInfo() {
   const { product } = useParams();
-  const { mutate: postFavorite } = usePostFavoriteSeller();
-  const { mutate: deleteFavoite } = useDeleteFavoriteSeller();
-  const { favorites, register, unRegister } = useFavoriteStore();
   const { data: productInfo } = useGetProductDetail(product as string);
-
-  const registerFavorite = () => {
-    postFavorite(productInfo.seller);
-    register(productInfo.seller);
-  };
-
-  const unRegisterFavorite = () => {
-    deleteFavoite(productInfo.seller);
-    unRegister(productInfo.seller);
-  };
+  const { favorites, registerFavorite, unRegisterFavorite } = useHandleFavorite(
+    productInfo.seller,
+  );
 
   return (
     <>
