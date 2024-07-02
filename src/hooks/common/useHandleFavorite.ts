@@ -1,18 +1,27 @@
 import { useDeleteFavoriteSeller, usePostFavoriteSeller } from '../quries/seller';
-import { useFavoriteStore } from '../zuztand/store';
+import { favoriteStoreAction, useFavoriteStore } from '../zuztand/store';
 
 export const useHandleFavorite = (seller: string) => {
-  const { mutate: postFavorite, isPending: postPending } = usePostFavoriteSeller();
-  const { mutate: deleteFavoite, isPending: deletePending } = useDeleteFavoriteSeller();
-  const { favorites, register, unRegister } = useFavoriteStore();
+  const { mutate: postFavorite } = usePostFavoriteSeller();
+  const { mutate: deleteFavoite } = useDeleteFavoriteSeller();
+  const favorites = useFavoriteStore((state) => state.favorites);
+  const { register, unRegister } = useFavoriteStore(favoriteStoreAction);
 
   const registerFavorite = () => {
-    postFavorite(seller);
+    postFavorite(seller, {
+      onError: () => {
+        unRegister(seller);
+      },
+    });
     register(seller);
   };
 
   const unRegisterFavorite = () => {
-    deleteFavoite(seller);
+    deleteFavoite(seller, {
+      onError: () => {
+        register(seller);
+      },
+    });
     unRegister(seller);
   };
 
@@ -20,7 +29,5 @@ export const useHandleFavorite = (seller: string) => {
     favorites,
     registerFavorite,
     unRegisterFavorite,
-    postPending,
-    deletePending,
   };
 };
