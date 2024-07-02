@@ -2,6 +2,21 @@ import { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useToast } from '../../hooks/common/useToast';
 
+export const ToastMessage = () => {
+  const { message, show, hideToast } = useToast();
+
+  useEffect(() => {
+    if (show) {
+      const timer = setTimeout(() => hideToast(), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [show, message]);
+
+  if (!show) return null;
+
+  return <Toast>{message}</Toast>;
+};
+
 const slideIn = keyframes`
   from {
     transform: translate(-50%, 100%);
@@ -34,18 +49,3 @@ const Toast = styled.div`
 
   ${({ theme }) => theme.fonts.body_2}
 `;
-
-export const ToastMessage = () => {
-  const { message, show, hideToast } = useToast();
-
-  useEffect(() => {
-    if (show) {
-      const timer = setTimeout(() => hideToast(), 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [show, message]);
-
-  if (!show) return null;
-
-  return <Toast>{message}</Toast>;
-};
