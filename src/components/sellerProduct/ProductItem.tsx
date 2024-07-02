@@ -60,6 +60,7 @@ const Name = styled.h2`
   ${({ theme }) => theme.fonts.body_2};
 
   text-overflow: ellipsis;
+  cursor: pointer;
 `;
 
 const Price = styled.h2`
