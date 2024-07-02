@@ -1,19 +1,18 @@
 import { useState } from 'react';
 import filledFavorite from '../../assets/icons/favorite_fill.svg';
 import emptyFavorite from '../../assets/icons/favorite_empty.svg';
-import React from 'react';
 import styled, { CSSProperties } from 'styled-components';
-import { usePostFavoriteSeller } from '../../hooks/quries/seller';
 
 interface Props {
   type?: 'simple' | 'vertical' | 'horizontal';
   style?: CSSProperties;
+  initState?: 'fill' | 'empty';
   onChangeState?: (state: 'fill' | 'empty') => void;
 }
 
 export default function Favorite(props: Props) {
-  const { type = 'horizontal', style, onChangeState } = props;
-  const [state, setState] = useState<'fill' | 'empty'>('empty');
+  const { type = 'horizontal', style, initState = 'empty', onChangeState } = props;
+  const [state, setState] = useState<'fill' | 'empty'>(initState);
 
   const toggleFavorite = () => {
     setState((prev) => (prev === 'empty' ? 'fill' : 'empty'));

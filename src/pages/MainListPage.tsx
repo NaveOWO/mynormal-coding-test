@@ -1,5 +1,4 @@
-import React, { Suspense } from 'react';
-import styled from 'styled-components';
+import { Suspense } from 'react';
 import PageTitle from '../components/common/PageTitle';
 import MainProductList from '../components/mainProduct/MainProductList';
 import ErrorBoundary from '../components/common/errorBoundary/ErrorBoundary';

@@ -5,7 +5,8 @@ import {
   postFavoriteSeller,
 } from '../../api/seller';
 import QueryString from 'qs';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useToast } from '../common/useToast';
 
 const QUERY_KEY = {
   all: () => ['sellerProducts'],
@@ -38,22 +39,35 @@ export const useGetSellerProductsData = () => {
 };
 
 export const usePostFavoriteSeller = () => {
-  const { mutate, isError } = useMutation({
+  const { mutate, isSuccess, isError, isPending } = useMutation({
     mutationFn: (sellerName: string) => postFavoriteSeller({ sellerName }),
   });
+  const { setMessage } = useToast();
 
-  if (isError) {
+  if (isSuccess) {
+    setMessage('관심셀러에 등록했어요!');
   }
 
-  return { mutate };
+  if (isError) {
+    setMessage('다시 시도해주세요!');
+  }
+
+  return { mutate, isPending };
 };
 
 export const useDeleteFavoriteSeller = () => {
-  const { mutate, isError } = useMutation({
+  const { mutate, isSuccess, isError } = useMutation({
     mutationFn: (sellerName: string) => deleteFavoriteSeller({ sellerName }),
   });
 
+  const { setMessage } = useToast();
+
+  if (isSuccess) {
+    setMessage('관심셀러를 해제했어요!');
+  }
+
   if (isError) {
+    setMessage('다시 시도해주세요!');
   }
 
   return { mutate };

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import shoes1 from '../../assets/images/shoes1.jpeg';
 import Favorite from '../common/Favorite';
@@ -7,6 +6,7 @@ import {
   usePostFavoriteSeller,
 } from '../../hooks/quries/seller';
 import { useRouter } from '../../hooks/common/useRouter';
+import { useFavoriteStore } from '../../hooks/zuztand/store';
 
 interface Props {
   seller: string;
@@ -16,9 +16,10 @@ interface Props {
 
 export default function ProductItem(props: Props) {
   const { seller, name, price } = props;
-  const { mutate: postFavorite } = usePostFavoriteSeller();
+  const { mutate: postFavorite, isPending } = usePostFavoriteSeller();
   const { mutate: deleteFavoite } = useDeleteFavoriteSeller();
   const router = useRouter();
+  const { favorites, register, unRegister } = useFavoriteStore();
 
   const moveToSellerProductListPage = () => {
     router.push(`/sellers/${seller}`, { start: 0 });
@@ -27,6 +28,17 @@ export default function ProductItem(props: Props) {
   const moveToProductDetailPage = () => {
     router.push(`/products/${name}`);
   };
+
+  const registerFavorite = () => {
+    postFavorite(seller);
+    register(seller);
+  };
+
+  const unRegisterFavorite = () => {
+    deleteFavoite(seller);
+    unRegister(seller);
+  };
+
   return (
     <ItemSection>
       <ImageContainer>
@@ -34,10 +46,12 @@ export default function ProductItem(props: Props) {
       </ImageContainer>
       <InfoContainer>
         <Favorite
+          key={`${Array.from(favorites)}-${isPending}`}
+          initState={favorites.has(seller) ? 'fill' : 'empty'}
           type='simple'
           style={{ position: 'absolute', top: '14.5rem', right: '1.8rem' }}
           onChangeState={(state) => {
-            state === 'fill' ? postFavorite(seller) : deleteFavoite(seller);
+            state === 'fill' ? registerFavorite() : unRegisterFavorite();
           }}
         />
         <Seller onClick={moveToSellerProductListPage}>{seller}</Seller>

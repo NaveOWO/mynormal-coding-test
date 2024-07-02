@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import background from '../assets/images/PaintedBackground.png';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -55,13 +54,12 @@ height: 100vh;
   }
 
   * {
-    /* scrollbar-width: none; */
     font-family: 'Noto Sans KR', 'Noto Sans' , sans-serif;
     white-space: pre-wrap;
 
 
     &::-webkit-scrollbar {
-      display: none; /* 크롬, 사파리, 오페라, 엣지 */
+      display: none;
     }
   }
 

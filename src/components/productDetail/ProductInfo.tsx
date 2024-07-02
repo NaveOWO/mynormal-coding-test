@@ -1,17 +1,31 @@
-import React from 'react';
 import styled from 'styled-components';
 import shoes3 from '../../assets/images/shoes3.jpeg';
 import { useGetProductDetail } from '../../hooks/quries/products';
-import QueryString from 'qs';
 import { useParams } from 'react-router-dom';
 import Favorite from '../common/Favorite';
-import Button from '../common/Button';
-import LoadingSpinner from '../common/LoadingSpinner';
+import {
+  useDeleteFavoriteSeller,
+  usePostFavoriteSeller,
+} from '../../hooks/quries/seller';
+import { useFavoriteStore } from '../../hooks/zuztand/store';
 
 export default function ProductInfo() {
   const { product } = useParams();
-
+  const { mutate: postFavorite } = usePostFavoriteSeller();
+  const { mutate: deleteFavoite } = useDeleteFavoriteSeller();
+  const { favorites, register, unRegister } = useFavoriteStore();
   const { data: productInfo } = useGetProductDetail(product as string);
+
+  const registerFavorite = () => {
+    postFavorite(productInfo.seller);
+    register(productInfo.seller);
+  };
+
+  const unRegisterFavorite = () => {
+    deleteFavoite(productInfo.seller);
+    unRegister(productInfo.seller);
+  };
+
   return (
     <>
       <ImageWrapper>
@@ -23,22 +37,16 @@ export default function ProductInfo() {
         <Price>{productInfo.price}</Price>
       </InfoContainer>
       <Favorite
+        initState={favorites.has(productInfo.seller) ? 'fill' : 'empty'}
+        onChangeState={(state) => {
+          state === 'fill' ? registerFavorite() : unRegisterFavorite();
+        }}
         type='vertical'
         style={{ position: 'absolute', top: '38rem', right: '3.3rem' }}
       />
     </>
   );
 }
-
-const Container = styled.div`
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 100%;
-`;
 
 const ImageWrapper = styled.div`
   width: 35rem;

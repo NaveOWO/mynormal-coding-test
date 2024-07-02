@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useGetProductsData } from '../../hooks/quries/products';
 import ProductItem from './ProductItem';
 import styled, { keyframes } from 'styled-components';

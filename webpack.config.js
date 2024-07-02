@@ -39,6 +39,6 @@ module.exports = {
     },
     compress: true,
     port: 3000,
-    historyApiFallback: true, // 모든 요청을 index.html로 리디렉션
+    historyApiFallback: true,
   },
 };

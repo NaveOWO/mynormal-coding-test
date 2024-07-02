@@ -1,8 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 import shoes2 from '../../assets/images/shoes2.jpeg';
 import { useRouter } from '../../hooks/common/useRouter';
-import LoadingSpinner from '../common/LoadingSpinner';
 
 interface Props {
   name: string;

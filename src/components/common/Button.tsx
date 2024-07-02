@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
+import { ComponentPropsWithoutRef } from 'react';
 import styled, { CSSProperties, css } from 'styled-components';
 
 interface Props extends ComponentPropsWithoutRef<'button'> {

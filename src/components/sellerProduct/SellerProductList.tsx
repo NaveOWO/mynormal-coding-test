@@ -1,11 +1,9 @@
 import QueryString from 'qs';
-import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useGetSellerProductsData } from '../../hooks/quries/seller';
 import { useRouter } from '../../hooks/common/useRouter';
 import ProductItem from './ProductItem';
 import Button from '../common/Button';
-import { useParams } from 'react-router-dom';
 
 export default function SellerProductList() {
   const start =

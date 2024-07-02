@@ -1,7 +1,6 @@
 import { Component, PropsWithChildren } from 'react';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './errorboundary.type';
 import styled from 'styled-components';
-import React from 'react';
 
 const initialState: ErrorBoundaryState = {
   didCatch: false,

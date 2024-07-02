@@ -1,4 +1,3 @@
-import React from 'react';
 import arrow from '../../assets/icons/back_arrow.svg';
 import { useRouter } from '../../hooks/common/useRouter';
 import styled from 'styled-components';

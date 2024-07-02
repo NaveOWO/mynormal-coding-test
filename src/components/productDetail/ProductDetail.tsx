@@ -1,10 +1,5 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import styled from 'styled-components';
-import shoes3 from '../../assets/images/shoes3.jpeg';
-import { useGetProductDetail } from '../../hooks/quries/products';
-import QueryString from 'qs';
-import { useParams } from 'react-router-dom';
-import Favorite from '../common/Favorite';
 import Button from '../common/Button';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ProductInfo from './ProductInfo';
