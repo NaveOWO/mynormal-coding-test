@@ -15,8 +15,14 @@ export const useRouter = () => {
           search: search ? stringify(search, { indices: false }) : undefined,
         });
       },
-      replace(path: string) {
-        navigate({ pathname: path }, { replace: true });
+      replace(path: string, search?: any) {
+        navigate(
+          {
+            pathname: path,
+            search: search ? stringify(search, { indices: false }) : undefined,
+          },
+          { replace: true },
+        );
       },
     };
   }, [navigate]);
