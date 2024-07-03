@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Favorite from '../common/Favorite';
 import { useHandleFavorite } from '../../hooks/common/useHandleFavorite';
 import { numberToKRW } from '../../utils/numberToKRW';
+import { useRouter } from '../../hooks/common/useRouter';
 
 export default function ProductInfo() {
   const { product } = useParams();
@@ -12,6 +13,11 @@ export default function ProductInfo() {
   const { favorites, registerFavorite, unRegisterFavorite } = useHandleFavorite(
     productInfo.seller,
   );
+  const router = useRouter();
+
+  const moveToSellerProductListPage = () => {
+    router.push(`/sellers/${productInfo.seller}`, { start: 0 });
+  };
 
   return (
     <>
@@ -19,7 +25,7 @@ export default function ProductInfo() {
         <img src={shoes3} />
       </ImageWrapper>
       <InfoContainer>
-        <Seller>{productInfo.seller}</Seller>
+        <Seller onClick={moveToSellerProductListPage}>{productInfo.seller}</Seller>
         <Name>{productInfo.name}</Name>
         <Price>{numberToKRW(productInfo.price)}</Price>
       </InfoContainer>
@@ -57,6 +63,8 @@ const Seller = styled.div`
   color: ${({ theme }) => theme.colors.gray300};
 
   ${({ theme }) => theme.fonts.body_4}
+
+  cursor: pointer;
 `;
 
 const Name = styled.div`
