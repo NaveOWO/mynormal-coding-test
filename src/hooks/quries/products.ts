@@ -14,18 +14,18 @@ export const useGetProductsData = () => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useSuspenseInfiniteQuery({
       queryKey: QUERY_KEY.products(),
-      queryFn: ({ pageParam = start }) => getProductsData({ start: pageParam as string }),
+      queryFn: ({ pageParam = start }) => getProductsData({ start: pageParam }),
       getNextPageParam: (lastPage) => {
         return lastPage.data.data.length < SIZE
           ? undefined
           : (Number(start) + SIZE).toString();
       },
       initialPageParam: '0',
+      select: (data) => data.pages.flatMap((item) => item.data.data),
     });
-  const allData = data.pages.flatMap((item) => item.data.data);
 
   return {
-    allData,
+    data,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,

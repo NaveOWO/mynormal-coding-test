@@ -5,8 +5,6 @@ import {
   postFavoriteSeller,
 } from '../../api/seller';
 import { useParams } from 'react-router-dom';
-import { useToast } from '../common/useToast';
-import { useEffect } from 'react';
 import { getStringQS } from '../../utils/querystring';
 import { SIZE } from '../../constants/product';
 
@@ -29,11 +27,11 @@ export const useGetSellerProductsData = () => {
           : (Number(start) + SIZE).toString();
       },
       initialPageParam: '0',
+      select: (data) => data.pages.flatMap((item) => item.data.data),
     });
-  const allData = data.pages.flatMap((item) => item.data.data);
 
   return {
-    allData,
+    data,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
@@ -41,40 +39,17 @@ export const useGetSellerProductsData = () => {
 };
 
 export const usePostFavoriteSeller = () => {
-  const { mutate, isSuccess, isError, isPending } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (sellerName: string) => postFavoriteSeller({ sellerName }),
   });
-  const { setMessage } = useToast();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setMessage('관심셀러에 등록했어요!');
-    }
-
-    if (isError) {
-      setMessage('다시 시도해주세요!');
-    }
-  }, [isSuccess, isError]);
 
   return { mutate, isPending };
 };
 
 export const useDeleteFavoriteSeller = () => {
-  const { mutate, isSuccess, isError, isPending } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (sellerName: string) => deleteFavoriteSeller({ sellerName }),
   });
-
-  const { setMessage } = useToast();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setMessage('관심셀러에 등록했어요!');
-    }
-
-    if (isError) {
-      setMessage('다시 시도해주세요!');
-    }
-  }, [isSuccess, isError]);
 
   return { mutate, isPending };
 };
