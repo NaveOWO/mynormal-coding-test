@@ -6,12 +6,13 @@ export const getStringQS = (target: string) => {
     ignoreQueryPrefix: true,
   });
 
-  const value = qs[target];
-  const result = z.string().safeParse(value);
+  if (!(target in qs)) {
+    throw new Error(`쿼리스트링에 해당 값이 존재하지 않습니다!`);
+  }
 
-  if (result.success) {
-    return result.data;
-  } else {
+  try {
+    return z.string().parse(qs[target]);
+  } catch (error) {
     throw new Error(`쿼리스트링을 {string}={string}의 형태로 설정해주세요!`);
   }
 };
