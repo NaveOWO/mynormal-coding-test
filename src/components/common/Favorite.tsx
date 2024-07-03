@@ -16,7 +16,7 @@ export default function Favorite(props: Props) {
   const { type = 'horizontal', style, state = 'empty', onChangeState } = props;
 
   return (
-    <Container style={{ ...style }} type={type}>
+    <Container style={style} type={type}>
       <FavorateButton
         onClick={() => {
           onChangeState?.(state);

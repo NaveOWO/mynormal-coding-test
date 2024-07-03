@@ -31,7 +31,7 @@ export default function Button(props: Props) {
       border={border}
       backgroundColor={backgroundColor}
       fontStyle={fontStyle}
-      style={{ ...style }}
+      style={style}
       {...restProps}
     >
       {text}
