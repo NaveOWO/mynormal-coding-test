@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useToast } from '../../hooks/common/useToast';
 
 export const ToastMessage = () => {
-  const { message, show, hideToast } = useToast();
+  const { message, setMessage } = useToast();
 
   useEffect(() => {
-    if (show) {
-      const timer = setTimeout(() => hideToast(), 1500);
-      return () => clearTimeout(timer);
+    if (message) {
+      setTimeout(() => setMessage(''), 1500);
     }
-  }, [show, message]);
+  }, [message]);
 
-  if (!show) return null;
+  if (!message) return null;
 
   return <Toast>{message}</Toast>;
 };
