@@ -8,14 +8,14 @@ import { SIZE } from '../../constants/product';
 
 export default function SellerProductList() {
   const start = getStringQS('start');
-  const { allData, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetSellerProductsData();
   const router = useRouter();
 
   return (
     <>
       <ListContainer>
-        {allData.map((item) => {
+        {data.map((item) => {
           return <ProductItem key={item.name} name={item.name} price={item.price} />;
         })}
         {isFetchingNextPage &&

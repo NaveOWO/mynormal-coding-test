@@ -9,18 +9,17 @@ import { SIZE } from '../../constants/product';
 
 export default function MainProductList() {
   const start = getStringQS('start');
-  const { allData, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetProductsData();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetProductsData();
   const router = useRouter();
 
   useEffect(() => {
-    router.push('', { start: (allData.length / SIZE - 1) * SIZE });
+    router.push('', { start: (data.length / SIZE - 1) * SIZE });
   }, []);
 
   return (
     <>
       <ListContainer>
-        {allData.map((item) => {
+        {data.map((item) => {
           return (
             <ProductItem
               key={item.name}
@@ -40,6 +39,7 @@ export default function MainProductList() {
             backgroundColor='transparent'
             border={true}
             text='더보기'
+            disabled={isFetchingNextPage}
             onClick={() => {
               router.push('/', { start: Number(start) + SIZE });
               fetchNextPage();
